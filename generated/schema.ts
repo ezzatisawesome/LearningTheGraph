@@ -12,9 +12,9 @@ import {
 } from "@graphprotocol/graph-ts";
 
 export class Gravatar extends Entity {
-  constructor(id: Bytes) {
+  constructor(id: string) {
     super();
-    this.set("id", Value.fromBytes(id));
+    this.set("id", Value.fromString(id));
   }
 
   save(): void {
@@ -22,24 +22,24 @@ export class Gravatar extends Entity {
     assert(id != null, "Cannot save Gravatar entity without an ID");
     if (id) {
       assert(
-        id.kind == ValueKind.BYTES,
-        `Entities of type Gravatar must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        id.kind == ValueKind.STRING,
+        `Entities of type Gravatar must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("Gravatar", id.toBytes().toHexString(), this);
+      store.set("Gravatar", id.toString(), this);
     }
   }
 
-  static load(id: Bytes): Gravatar | null {
-    return changetype<Gravatar | null>(store.get("Gravatar", id.toHexString()));
+  static load(id: string): Gravatar | null {
+    return changetype<Gravatar | null>(store.get("Gravatar", id));
   }
 
-  get id(): Bytes {
+  get id(): string {
     let value = this.get("id");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set id(value: Bytes) {
-    this.set("id", Value.fromBytes(value));
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
   }
 
   get owner(): Bytes | null {
@@ -91,14 +91,5 @@ export class Gravatar extends Entity {
     } else {
       this.set("imageUrl", Value.fromString(<string>value));
     }
-  }
-
-  get acceptable(): boolean {
-    let value = this.get("acceptable");
-    return value!.toBoolean();
-  }
-
-  set acceptable(value: boolean) {
-    this.set("acceptable", Value.fromBoolean(value));
   }
 }

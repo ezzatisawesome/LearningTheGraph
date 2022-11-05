@@ -7,7 +7,7 @@ import {
 import { Gravatar } from "../generated/schema"
 
 export function handleNewGravatar(event: NewGravatar): void {
-  let gravatar = new Gravatar(Bytes.fromHexString(event.params.id.toHex()))
+  let gravatar = new Gravatar(event.params.id.toHex())
   gravatar.owner = event.params.owner
   gravatar.displayName = event.params.displayName
   gravatar.imageUrl = event.params.imageUrl
@@ -15,7 +15,7 @@ export function handleNewGravatar(event: NewGravatar): void {
 }
 
 export function handleUpdatedGravatar(event: UpdatedGravatar): void {
-  let id = Bytes.fromHexString(event.params.id.toHex())
+  let id = event.params.id.toString()
   let gravatar = Gravatar.load(id)
   if (gravatar == null) {
     gravatar = new Gravatar(id)

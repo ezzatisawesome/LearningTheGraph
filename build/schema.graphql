@@ -1,7 +1,6 @@
 type Gravatar @entity(immutable: true) {
-  id: Bytes!,
+  id: ID!,
   owner: Bytes,
   displayName: String,
-  imageUrl: String,
-  acceptable: Boolean
+  imageUrl: String
 }
